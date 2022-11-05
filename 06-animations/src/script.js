@@ -24,24 +24,6 @@ const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
 camera.position.z = 3;
 scene.add(camera);
 
-/**
- * Animate
- */
-const clock = new THREE.Clock();
-
-const tick = () => {
-  const elapsedTime = clock.getElapsedTime();
-
-  // Update objects
-  camera.position.x = Math.cos(elapsedTime);
-  camera.position.y = Math.sin(elapsedTime);
-  camera.lookAt(mesh.position);
-
-  // ...
-};
-
-tick();
-
 // Renderer
 const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
@@ -73,3 +55,22 @@ renderer.render(scene, camera);
 // };
 
 // tick();
+/**
+ * Animate
+ */
+const clock = new THREE.Clock();
+
+const tick = () => {
+  const elapsedTime = clock.getElapsedTime();
+
+  // Update objects
+  camera.position.x = Math.cos(elapsedTime);
+  camera.position.y = Math.sin(elapsedTime);
+  camera.lookAt(mesh.position);
+
+  // ...
+  renderer.render(scene, camera);
+
+  window.requestAnimationFrame(tick);
+};
+tick();

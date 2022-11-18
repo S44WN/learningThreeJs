@@ -2,7 +2,23 @@ import "./style.css";
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
 import gsap from "gsap";
+import * as dat from "lil-gui";
 
+const parameter = {
+  color: 0xff0000,
+  spin: () => {
+    gsap.to(mesh.rotation, { duration: 1, y: mesh.rotation.y + Math.PI * 2 });
+  },
+};
+
+const gui = new dat.GUI();
+// const gui = new dat.GUI({ closed: true });
+// const gui = new dat.GUI({ width: 400 });
+
+gui.addColor(parameter, "color").onChange(() => {
+  material.color.set(parameter.color);
+});
+gui.add(parameter, "spin");
 /**
  * Base
  */
@@ -16,7 +32,7 @@ const scene = new THREE.Scene();
  * Object
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0x00abb3 });
+const material = new THREE.MeshBasicMaterial({ color: parameter.color });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
@@ -58,6 +74,12 @@ scene.add(camera);
 // Controls
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
+
+// debug ui
+// gui.add(mesh.position, "y", -3, 3, 0.01);
+gui.add(mesh.position, "y").min(-3).max(3).step(0.01).name("elevation");
+gui.add(mesh, "visible");
+gui.add(material, "wireframe");
 
 /**
  * Renderer

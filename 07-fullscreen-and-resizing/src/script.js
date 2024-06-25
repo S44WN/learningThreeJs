@@ -14,7 +14,7 @@ const scene = new THREE.Scene();
  * Object
  */
 const geometry = new THREE.BoxGeometry(1, 1, 1);
-const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const material = new THREE.MeshBasicMaterial({ color: 0xff00dfdd });
 const mesh = new THREE.Mesh(geometry, material);
 scene.add(mesh);
 
@@ -25,6 +25,21 @@ const sizes = {
   width: window.innerWidth,
   height: window.innerHeight,
 };
+
+//handle resize
+window.addEventListener("resize", () => {
+  //update sizes -
+  sizes.width = window.innerWidth;
+  sizes.height = window.innerHeight;
+
+  //update camera - aspect ratio
+  camera.aspect = sizes.width / sizes.height;
+  camera.updateProjectionMatrix(); //update camera with new aspect ratio
+
+  //update renderer - size of the renderer
+  renderer.setSize(sizes.width, sizes.height);
+  renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+});
 
 /**
  * Camera
@@ -43,6 +58,27 @@ scene.add(camera);
 const controls = new OrbitControls(camera, canvas);
 controls.enableDamping = true;
 
+// go fullscreen
+
+window.addEventListener("dblclick", () => {
+  const fullscreenElement =
+    document.fullscreenElement || document.webkitFullscreenElement;
+
+  if (!fullscreenElement) {
+    if (canvas.requestFullscreen) {
+      canvas.requestFullscreen();
+    } else if (canvas.webkitRequestFullscreen) {
+      canvas.webkitRequestFullscreen();
+    }
+  } else {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitExitFullscreen) {
+      document.webkitExitFullscreen();
+    }
+  }
+});
+
 /**
  * Renderer
  */
@@ -50,6 +86,7 @@ const renderer = new THREE.WebGLRenderer({
   canvas: canvas,
 });
 renderer.setSize(sizes.width, sizes.height);
+renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
 /**
  * Animate

@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls.js";
-import GUI from "lil-gui";
+// import GUI from "lil-gui";
 // import pilowlavaFont from "../static/font/Pilowlava_Regular.json";
 import { FontLoader } from "three/examples/jsm/loaders/FontLoader.js";
 import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
@@ -9,7 +9,7 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
  * Base
  */
 // Debug
-const gui = new GUI();
+// const gui = new GUI();
 
 // Canvas
 const canvas = document.querySelector("canvas.webgl");
@@ -154,6 +154,8 @@ const tick = () => {
 
   // Update controls
   controls.update();
+
+  //update donut rotation
 
   // Render
   renderer.render(scene, camera);

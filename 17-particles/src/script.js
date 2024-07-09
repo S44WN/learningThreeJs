@@ -47,7 +47,7 @@ particleGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
 const particleMaterial = new THREE.PointsMaterial();
 particleMaterial.size = 0.15;
 particleMaterial.sizeAttenuation = true;
-particleMaterial.color = new THREE.Color("#ff88cc");
+// particleMaterial.color = new THREE.Color("#ff88cc");
 
 particleMaterial.vertexColors = true; // to use the colors of the vertices
 
@@ -140,6 +140,16 @@ const clock = new THREE.Clock();
 const tick = () => {
   const elapsedTime = clock.getElapsedTime();
 
+  for (let i = 0; i < count; i++) {
+    const i3 = i * 3;
+
+    const x = particleGeometry.attributes.position.array[i3];
+    particleGeometry.attributes.position.array[i3 + 1] = Math.sin(
+      elapsedTime + x
+    );
+  }
+
+  particleGeometry.attributes.position.needsUpdate = true;
   // Update controls
   controls.update();
 

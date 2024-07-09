@@ -30,9 +30,11 @@ const particleGeometry = new THREE.BufferGeometry();
 const count = 5000;
 
 const positions = new Float32Array(count * 3);
+const colors = new Float32Array(count * 3);
 
 for (let i = 0; i < count * 3; i++) {
   positions[i] = (Math.random() - 0.5) * 10;
+  colors[i] = Math.random();
 }
 
 particleGeometry.setAttribute(
@@ -40,10 +42,14 @@ particleGeometry.setAttribute(
   new THREE.BufferAttribute(positions, 3)
 );
 
+particleGeometry.setAttribute("color", new THREE.BufferAttribute(colors, 3));
+
 const particleMaterial = new THREE.PointsMaterial();
-particleMaterial.size = 0.2;
+particleMaterial.size = 0.15;
 particleMaterial.sizeAttenuation = true;
 particleMaterial.color = new THREE.Color("#ff88cc");
+
+particleMaterial.vertexColors = true; // to use the colors of the vertices
 
 // to make the particles transparent but still the edges are slighly visible
 particleMaterial.transparent = true;
@@ -51,11 +57,22 @@ particleMaterial.alphaMap = particleTexture;
 
 //fixing
 // particleMaterial.alphaTest = 0.001; // if the alpha is less than 0.001 then it will be discarded
-particleMaterial.depthTest = false; // to make the particles glow
 
-// to make the particles glow
-// particleMaterial.depthWrite = false;
-// particleMaterial.blending = THREE.AdditiveBlending;
+/* 
+to make the particles glow and not be hidden by other objects
+but it might create bugs for other objects and colors
+*/
+// particleMaterial.depthTest = false;
+
+/* 
+depthWrite is used to make the particles glow and not be hidden by other objects
+it tells the gpu to not write the depth of the particles in depth buffer 
+depth buffer is used to know which object is in front of the other
+*/
+particleMaterial.depthWrite = false;
+
+// adds the color of the particles to the color of the object behind it
+particleMaterial.blending = THREE.AdditiveBlending;
 
 const particles = new THREE.Points(particleGeometry, particleMaterial);
 scene.add(particles);
@@ -66,12 +83,6 @@ gui
   .max(1)
   .step(0.001)
   .name("particleSize");
-
-const cube = new THREE.Mesh(
-  new THREE.BoxGeometry(1, 1, 1),
-  new THREE.MeshBasicMaterial()
-);
-scene.add(cube);
 
 /**
  * Sizes

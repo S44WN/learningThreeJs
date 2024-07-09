@@ -19,6 +19,8 @@ const scene = new THREE.Scene();
  */
 const textureLoader = new THREE.TextureLoader();
 
+const particleTexture = textureLoader.load("/textures/particles/2.png");
+
 /**
  * particles
  */
@@ -38,13 +40,38 @@ particleGeometry.setAttribute(
   new THREE.BufferAttribute(positions, 3)
 );
 
-const particleMaterial = new THREE.PointsMaterial({
-  size: 0.02,
-  sizeAttenuation: true,
-});
+const particleMaterial = new THREE.PointsMaterial();
+particleMaterial.size = 0.2;
+particleMaterial.sizeAttenuation = true;
+particleMaterial.color = new THREE.Color("#ff88cc");
+
+// to make the particles transparent but still the edges are slighly visible
+particleMaterial.transparent = true;
+particleMaterial.alphaMap = particleTexture;
+
+//fixing
+// particleMaterial.alphaTest = 0.001; // if the alpha is less than 0.001 then it will be discarded
+particleMaterial.depthTest = false; // to make the particles glow
+
+// to make the particles glow
+// particleMaterial.depthWrite = false;
+// particleMaterial.blending = THREE.AdditiveBlending;
 
 const particles = new THREE.Points(particleGeometry, particleMaterial);
 scene.add(particles);
+
+gui
+  .add(particleMaterial, "size")
+  .min(0)
+  .max(1)
+  .step(0.001)
+  .name("particleSize");
+
+const cube = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial()
+);
+scene.add(cube);
 
 /**
  * Sizes

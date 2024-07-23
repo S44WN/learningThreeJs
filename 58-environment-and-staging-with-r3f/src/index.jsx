@@ -5,10 +5,6 @@ import Experience from "./Experience.jsx";
 
 const root = ReactDOM.createRoot(document.querySelector("#root"));
 
-const created = ({ scene }) => {
-  scene.background = new THREE.Color("#ff0000");
-};
-
 root.render(
   <Canvas
     camera={{
@@ -17,8 +13,8 @@ root.render(
       far: 200,
       position: [-4, 3, 6],
     }}
-    onCreated={created}
   >
+    <color args={["ivory"]} attach="background" />
     <Experience />
   </Canvas>
 );

@@ -19,7 +19,17 @@ const scene = new THREE.Scene();
  */
 const textureLoader = new THREE.TextureLoader();
 
-const particleTexture = textureLoader.load("/textures/particles/2.png");
+const particleTexture = textureLoader.load("/textures/particles/14.png");
+
+const cube = new THREE.Mesh(
+  new THREE.BoxGeometry(1, 1, 1),
+  new THREE.MeshBasicMaterial({
+    map: particleTexture,
+    transparent: true,
+  })
+);
+
+scene.add(cube);
 
 /**
  * particles

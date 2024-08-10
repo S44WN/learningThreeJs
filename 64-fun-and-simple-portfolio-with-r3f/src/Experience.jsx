@@ -1,4 +1,7 @@
 import {
+  Text,
+  Html,
+  ContactShadows,
   PresentationControls,
   Float,
   Environment,
@@ -26,9 +29,41 @@ export default function Experience() {
         snap={{ mass: 4, tension: 400 }}
       >
         <Float rotationIntensity={0.4}>
-          <primitive object={computer.scene} position-y={-1.2} />
+          <Text
+            font="./bangers-v20-latin-regular.woff"
+            fontSize={0.8}
+            position={[2, 0.85, 0.45]}
+            rotation-y={-1.25}
+            maxWidth={2}
+          >
+            PIZZA BOSS
+          </Text>
+          <rectAreaLight
+            width={2.5}
+            height={1.65}
+            intensity={65}
+            color={"#ff4242"}
+            rotation={[-0.1, Math.PI, 0]}
+            position={[0, 0.55, -1.15]}
+          />
+          <primitive
+            object={computer.scene}
+            position-y={-1.2}
+            rotation-x={0.13}
+          >
+            <Html
+              transform
+              wrapperClass="htmlScreen"
+              distanceFactor={1.17}
+              position={[0, 1.56, -1.4]}
+              rotation-x={-0.256}
+            >
+              <iframe src="https://pizzaboss.netlify.app/" />
+            </Html>
+          </primitive>
         </Float>
       </PresentationControls>
+      <ContactShadows position-y={-1.4} opacity={0.4} scale={5} blur={2.4} />
     </>
   );
 }

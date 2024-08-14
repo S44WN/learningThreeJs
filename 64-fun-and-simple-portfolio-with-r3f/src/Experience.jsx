@@ -6,7 +6,6 @@ import {
   Float,
   Environment,
   useGLTF,
-  OrbitControls,
 } from "@react-three/drei";
 
 export default function Experience() {

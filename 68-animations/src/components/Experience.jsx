@@ -1,6 +1,6 @@
 import { Duck } from "./Duck";
 
-import { Scroll } from "@react-three/drei";
+import { Float, Scroll } from "@react-three/drei";
 import { useThree } from "@react-three/fiber";
 import { AnimatedBox } from "./AnimatedBox";
 import { AnimatedDodecahedron } from "./AnimatedDodecahedron";
@@ -13,7 +13,9 @@ export const Experience = () => {
   return (
     <>
       <group position-y={-0.75}>
-        <Duck />
+        <Float floatIntensity={2} speed={3}>
+          <Duck />
+        </Float>
       </group>
       <Background />
       <Scroll>
